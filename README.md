@@ -39,7 +39,7 @@ Nesta versão, o compilador já possui:
 
 ---
 
-📂 Exemplos Usados
+## 📂 Exemplos Usados
 
 Os exemplos utilizados neste projeto foram class_triangulo.puby e pascal.puby.
 O arquivo class_triangulo.puby realiza a validação de triângulos, verificando se os lados informados formam um triângulo válido e classificando-o de acordo com seus lados.
