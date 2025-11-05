@@ -45,3 +45,4 @@ Os exemplos utilizados neste projeto foram class_triangulo.puby e pascal.puby.
 O arquivo class_triangulo.puby realiza a validação de triângulos, verificando se os lados informados formam um triângulo válido e classificando-o de acordo com seus lados.
 Já o arquivo pascal.puby gera o Triângulo de Pascal, exibindo as primeiras n linhas conforme o valor informado pelo usuário.
 
+---
