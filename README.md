@@ -24,7 +24,7 @@ Nesta versão, o compilador já possui:
 |--------|----------|------------------------|
 | Análise Léxica | ✅ Concluída | Tokenização do código-fonte, detecção de símbolos e erros léxicos |
 | Análise Sintática | ✅ Concluída | Validação estrutural e geração da AST |
-| Análise Semântica | ⏳ Não iniciada | Regras semânticas da linguagem |
+| Análise Semântica | ✅ Concluída | Regras semânticas da linguagem |
 | TAC (Three Address Code) | 🚧 Futuro | Geração de código intermediário |
 | Backend LLVM | 🚧 Futuro | Compilação para código nativo |
 
