@@ -2,6 +2,9 @@ import logging
 from erro import Erro
 from analise_lexica import AnaliseLexica
 from analise_sintatica import AnaliseSintatica
+from analise_semantica import AnaliseSemantica 
+from code_generator import CodeGenerator
+
 
 class Compilador:
     def __init__(self, nome_arquivo_fonte: str):
@@ -11,8 +14,9 @@ class Compilador:
 
         self.analise_lexica_mod = AnaliseLexica(self.erro_handler)
         self.analise_sintatica_mod = AnaliseSintatica(self.erro_handler)
+        self.analise_semantica_mod = AnaliseSemantica(self.erro_handler)
 
-        #self.logger.info(f"Iniciando compilador para o arquivo: {nome_arquivo_fonte}")
+        
 
     def compilar(self):
         self.logger.info(f"--- Iniciando compilação do arquivo {self.nome_arquivo_fonte} ---")
@@ -41,6 +45,21 @@ class Compilador:
 
         self.logger.info("Fase Sintática concluída sem erros. AST gerada com sucesso.")
 
+        # ---------------------- ANÁLISE SEMÂNTICA ----------------------
+        self.logger.info("Fase Semântica iniciada...")
+        try:
+            ok_semantica = self.analise_semantica_mod.executarAnaliseSemantica(ast)
+        except Exception:
+            self.logger.error("Fase Semântica falhou. Compilação interrompida.")
+            return False
+
+        if self.erro_handler.tem_semantico or not ok_semantica:
+            self.logger.error("Fase Semântica detectou erros. Compilação interrompida.")
+            return False
+
+        self.logger.info("Fase Semântica concluída sem erros.")
+
+
         # ---------------------- EXPORTAÇÃO DA AST ----------------------
         base_nome = self.nome_arquivo_fonte.rsplit('.', 1)[0]
 
@@ -59,6 +78,23 @@ class Compilador:
         except Exception:
             self.logger.error("Falha ao gerar SVG. Compilação interrompida.")
             return False
+        
+        # ---------------------- GERAÇÃO DE CÓDIGO PYTHON ----------------------
+        try:
+            python_file = base_nome + ".py"
+            self.logger.info(f"Gerando código Python: {python_file}")
+            
+            gerador = CodeGenerator(output_file=python_file)
+
+            # O nó raiz da AST é "programa"
+            gerador.generate(ast)
+
+            self.logger.info(f"Código Python gerado com sucesso em {python_file}")
+
+        except Exception as e:
+            self.logger.error(f"Falha na geração de código Python: {e}")
+            return False
+
 
         # ---------------------- SUCESSO FINAL ----------------------
         self.logger.info("Compilação concluída sem erros!")
